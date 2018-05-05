@@ -4,11 +4,61 @@
     <meta charset="UTF-8">
     <title>Dwarf Water</title>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
     <style>
+        @import url("https://fonts.googleapis.com/css?family=Patua+One");
+
+        :root {
+            --component-background-color: #212020;
+            --component-border-top: 1px solid #383737;
+            --component-border-bottom: 1px solid black;
+        }
+
         body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             background-color: black;
             color: white;
-            font-size: 18pt;
+
+            font-family: "Patua One", serif;
+            font-weight: normal;
+        }
+
+        h1 {
+            margin: 10px;
+            color: #e0e0e0;
+        }
+
+        textarea {
+            font-family: monospace;
+            background-color: var(--component-background-color);
+            color: white;
+            border-bottom: var(--component-border-top);
+            border-top: var(--component-border-bottom);
+            border-left: 0;
+            border-right: var(--component-border-bottom);
+            resize: none;
+        }
+
+        button {
+            height: 40px;
+            margin-right: 20px;
+            border-radius: 4px;
+
+            font-weight: bold;
+            background-color: #a7a7a7;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+        button:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
         }
 
         td {
@@ -16,6 +66,7 @@
             width: 26px;
             height: 26px;
             text-align: center;
+            vertical-align: middle;
         }
 
         td.wall {
@@ -26,9 +77,128 @@
             background-color: blue;
             color: #9ed0ff;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        .container-vertical {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-container {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+        }
+
+        .title {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+        }
+
+        .header {
+            flex: 0 1 auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background-color: var(--component-background-color);
+            border-bottom: var(--component-border-bottom);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: #9c9c9c url(tower.svg) no-repeat center -1px;
+            background-size: 50px 50px;
+            border-radius: 20px;
+        }
+
+        .footer {
+            padding: 10px;
+            border-top: var(--component-border-top);
+            background-color: var(--component-background-color);
+        }
+
+        .valid {
+            color: lime;
+            margin-right: 10px;
+        }
+
+        .invalid {
+            color: red;
+            margin-right: 10px;
+        }
+
+        .container-horizontal {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .container-horizontal > * {
+            flex-grow: 1;
+        }
+
+        #map-table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 3;
+        }
+
+        #map-script {
+            flex-grow: 1;
+            letter-spacing: 6px;
+            font-size: 18px;
+        }
+
+        .map-container {
+            flex-grow: 2;
+        }
+
+        #map-table {
+            font-family: sans-serif;
+            font-size: 24px;
+            border-spacing: 0;
+        }
     </style>
 </head>
 <body>
+<div id="main-container" class="container-vertical">
+    <div class="header">
+        <div class="title">
+            <h1>Automaton Fortress</h1>
+            <div class="icon"></div>
+        </div>
+        <button><i class="fas fa-sync-alt"></i> Reload (R)</button>
+    </div>
+
+    <div class="container-horizontal">
+        <textarea name="rules-script" id="rules-script" cols="30" rows="10"></textarea>
+
+        <div class="container-vertical map-container">
+            <div id="map-table-container">
+                <table id="map-table"></table>
+            </div>
+            <textarea name="map-script" id="map-script" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="footer">
+        Rules:
+        <span id="rules-valid" class="valid hidden"><i class="fas fa-check"></i></span>
+        <span id="rules-invalid" class="invalid"><i class="fas fa-times"></i></span>
+        Map:
+        <span id="map-valid" class="valid hidden"><i class="fas fa-check"></i></span>
+        <span id="map-invalid" class="invalid"><i class="fas fa-times"></i></span>
+    </div>
+</div>
 
 </body>
 <script type="text/javascript" src="utils.js"></script>

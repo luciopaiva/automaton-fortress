@@ -6,6 +6,14 @@ class DwarfWater {
         this.rawRules = rawRules;
         /** @type {String} */
         this.rawMap = rawMap;
+
+        this.rulesTextArea = document.getElementById("rules-script");
+        this.rulesTextArea.value = this.rawRules;
+        this.rulesTextArea.addEventListener("input", () => { /* ToDo reload stuff */ });
+        this.mapTextArea = document.getElementById("map-script");
+        this.mapTextArea.value = this.rawMap;
+        this.mapTextArea.addEventListener("input", () => { /* ToDo reload stuff */ });
+
         this.rules = RulesParser.parse(this.rawRules);
         console.info(this.rules);
 
@@ -85,7 +93,7 @@ class DwarfWater {
 
     resetTable() {
         if (!this.table) {
-            this.table = document.createElement("table");
+            this.table = document.getElementById("map-table");
             this.tableCells = Array.from(Array(this.mapWidth), () => Array(this.mapHeight));
 
             for (const y of range(this.mapHeight)) {
