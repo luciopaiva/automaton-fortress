@@ -1,10 +1,9 @@
 
 class Tile {
-    constructor (symbol, display, cssClass, flowDirection = Math.trunc(Math.random() * Tile.HORIZONTAL_FLOW_STATE_COUNT)) {
+    constructor (symbol, display, cssClass) {
         this.symbol = symbol;
         this.display = display;
         this.cssClass = cssClass;
-        this.flowDirection = flowDirection;  // only applies to fluids
 
         Tile.tileBySymbol.set(symbol, this);
     }
@@ -28,15 +27,10 @@ class AnyTile extends Tile {
     }
 }
 
-Tile.HORIZONTAL_FLOW_LEFT = 0;
-Tile.HORIZONTAL_FLOW_RIGHT = 1;
-Tile.HORIZONTAL_FLOW_DOWN = 2;
-Tile.HORIZONTAL_FLOW_STATE_COUNT = 3;
-
 Tile.tileBySymbol = new Map();
-Tile.EMPTY = new Tile(".", " ", "empty", null);
+Tile.EMPTY = new Tile(".", " ", "empty");
 Tile.WATER = new Tile("~", "~", "water");
-Tile.FALLING_WATER = new Tile("v", "~", "water", Tile.HORIZONTAL_FLOW_DOWN);
+Tile.FALLING_WATER = new Tile("v", "~", "water");
 Tile.WALL = new Tile("#", "#", "wall");
 Tile.ANY_TILE = new AnyTile("?", "?", "any");
 
