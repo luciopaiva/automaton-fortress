@@ -1,11 +1,11 @@
 
-class Tile {
+class TileState {
     constructor (symbol, display, cssClass) {
         this.symbol = symbol;
         this.display = display;
         this.cssClass = cssClass;
 
-        Tile.tileBySymbol.set(symbol, this);
+        TileState.tileBySymbol.set(symbol, this);
     }
 
     matches(otherTile) {
@@ -13,7 +13,7 @@ class Tile {
     }
 
     static fromSymbol(symbol) {
-        const result = Tile.tileBySymbol.get(symbol);
+        const result = TileState.tileBySymbol.get(symbol);
         if (!result) {
             throw new Error(`Invalid character "${symbol}"`);
         }
@@ -21,26 +21,26 @@ class Tile {
     }
 }
 
-class AnyTile extends Tile {
+class AnyTile extends TileState {
     matches(otherTile) {
         return true;
     }
 }
 
-Tile.tileBySymbol = new Map();
-Tile.EMPTY = new Tile(".", " ", "empty");
-Tile.WATER = new Tile("~", "~", "water");
-Tile.FALLING_WATER = new Tile("v", "~", "water");
-Tile.WALL = new Tile("#", "#", "wall");
-Tile.ANY_TILE = new AnyTile("?", "?", "any");
+TileState.tileBySymbol = new Map();
+TileState.EMPTY = new TileState(".", " ", "empty");
+TileState.WATER = new TileState("~", "~", "water");
+TileState.FALLING_WATER = new TileState("v", "~", "water");
+TileState.WALL = new TileState("#", "#", "wall");
+TileState.ANY_TILE = new AnyTile("?", "?", "any");
 
 class RuleState {
     constructor (c, n, e, s, w) {
-        this.center = c instanceof Tile ? c : Tile.fromSymbol(c);
-        this.north = n instanceof Tile ? n : Tile.fromSymbol(n);
-        this.east = e instanceof Tile ? e : Tile.fromSymbol(e);
-        this.south = s instanceof Tile ? s : Tile.fromSymbol(s);
-        this.west = w instanceof Tile ? w : Tile.fromSymbol(w);
+        this.center = c instanceof TileState ? c : TileState.fromSymbol(c);
+        this.north = n instanceof TileState ? n : TileState.fromSymbol(n);
+        this.east = e instanceof TileState ? e : TileState.fromSymbol(e);
+        this.south = s instanceof TileState ? s : TileState.fromSymbol(s);
+        this.west = w instanceof TileState ? w : TileState.fromSymbol(w);
     }
 
     /**

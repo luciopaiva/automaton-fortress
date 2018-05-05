@@ -12,7 +12,7 @@ class DwarfWater {
         this.resetMap();
         this.resetTable();
 
-        this.wall = Tile.WALL;
+        this.wall = TileState.WALL;
 
         this.stepFunction = this.step.bind(this);
         setInterval(this.stepFunction, 500);
@@ -30,7 +30,7 @@ class DwarfWater {
 
             for (const rule of this.rules) {
                 if (rule.matches(state)) {
-                    this.backingMap[x][y] = Tile.fromSymbol(rule.result);
+                    this.backingMap[x][y] = TileState.fromSymbol(rule.result);
                     dirtyTiles.push([x, y]);
                     break;
                 }
@@ -71,15 +71,15 @@ class DwarfWater {
         const rawMapLines = this.rawMap.split("\n").map(trimRight);
         this.mapHeight = rawMapLines.length;
         this.mapWidth = rawMapLines.reduce((maxWidth, line) => Math.max(maxWidth, line.length), 0);
-        /** @type {Tile[][]} */
+        /** @type {TileState[][]} */
         this.map = Array.from(Array(this.mapWidth), () => Array(this.mapHeight));
-        /** @type {Tile[][]} */
+        /** @type {TileState[][]} */
         this.backingMap = Array.from(Array(this.mapWidth), () => Array(this.mapHeight));
 
         for (const [x, y] of range2d(this.mapWidth, this.mapHeight)) {
             const rawSymbol = rawMapLines[y][x];
-            const symbol = (rawSymbol === " " || rawSymbol === undefined) ? Tile.EMPTY.symbol : rawSymbol;
-            this.map[x][y] = Tile.fromSymbol(symbol);
+            const symbol = (rawSymbol === " " || rawSymbol === undefined) ? TileState.EMPTY.symbol : rawSymbol;
+            this.map[x][y] = TileState.fromSymbol(symbol);
         }
     }
 
