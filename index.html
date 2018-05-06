@@ -11,8 +11,10 @@
 
         :root {
             --component-background-color: #212020;
-            --component-border-top: 1px solid #383737;
-            --component-border-bottom: 1px solid black;
+            --component-border-light: 1px solid #383737;
+            --component-border-dark: 1px solid black;
+            --toolbar-width: 40px;
+            --toolbar-button-size: 30px;
         }
 
         body {
@@ -35,16 +37,19 @@
             font-family: monospace;
             background-color: var(--component-background-color);
             color: white;
-            border-bottom: var(--component-border-top);
-            border-top: var(--component-border-bottom);
+            border-bottom: var(--component-border-light);
+            border-top: var(--component-border-dark);
             border-left: 0;
-            border-right: var(--component-border-bottom);
+            border-right: var(--component-border-dark);
             resize: none;
         }
 
+        input[type="number"] {
+            background-color: #101010;
+            color: white;
+        }
+
         button {
-            height: 40px;
-            margin-right: 20px;
             border-radius: 4px;
 
             font-weight: bold;
@@ -79,7 +84,12 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
+        }
+
+        .header button {
+            height: 40px;
+            width: 50px;
         }
 
         .container-vertical {
@@ -106,9 +116,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-right: calc(var(--toolbar-width) + 5px);
 
             background-color: var(--component-background-color);
-            border-bottom: var(--component-border-bottom);
+            /*border-bottom: var(--component-border-dark);*/
         }
 
         .icon {
@@ -121,7 +132,7 @@
 
         .footer {
             padding: 10px;
-            border-top: var(--component-border-top);
+            border-top: var(--component-border-light);
             background-color: var(--component-background-color);
         }
 
@@ -141,8 +152,57 @@
             flex-direction: row;
         }
 
-        .container-horizontal > * {
-            flex-grow: 1;
+        .toolbar {
+            position: relative;
+            flex: 0 0 var(--toolbar-width);
+            background-color: var(--component-background-color);
+            border-left: var(--component-border-light);
+            padding-top: 5px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .toolbar button {
+            height: var(--toolbar-button-size);
+            width: var(--toolbar-button-size);
+        }
+
+        #new-map-dialog {
+            position: absolute;
+            right: 42px;
+            top: 0;
+
+            background-color: var(--component-background-color);
+            border: var(--component-border-light);
+            border-radius: 4px;
+
+            font-family: sans-serif;
+            font-size: 16px;
+            color: gray;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+            height: var(--toolbar-width);
+        }
+
+        #new-map-dialog > * {
+            margin: 4px;
+        }
+
+        #new-map-dialog input {
+            width: 40px;
+            border: 1px solid black;
+            border-radius: 4px;
+            height: calc(var(--toolbar-button-size) - 4px);
+        }
+
+        #rules-script {
+            flex: 1 0 auto;
         }
 
         #map-table-container {
@@ -160,6 +220,8 @@
 
         .map-container {
             flex-grow: 2;
+
+            user-select: none;  /* so that we can click and drag freely when editing the map */
         }
 
         #map-table {
@@ -176,7 +238,10 @@
             <h1>Automaton Fortress</h1>
             <div class="icon"></div>
         </div>
-        <button><i class="fas fa-sync-alt"></i> Reload (R)</button>
+        <div class="header-buttons">
+            <button><i class="fas fa-sync-alt fa-2x"></i></button>
+            <button><i class="fas fa-play fa-2x"></i></button>
+        </div>
     </div>
 
     <div class="container-horizontal">
@@ -186,7 +251,14 @@
             <div id="map-table-container">
                 <table id="map-table"></table>
             </div>
-            <textarea name="map-script" id="map-script" cols="30" rows="10"></textarea>
+            <textarea name="map-script" id="map-script" class="hidden" cols="30" rows="10"></textarea>
+        </div>
+
+        <div class="toolbar">
+            <button id="new-map-button"><i class="far fa-file"></i></button>
+            <div id="new-map-dialog">
+                <input type="number" value="20"> x <input type="number" value="16"> <button><i class="fas fa-check"></i></button>
+            </div>
         </div>
     </div>
 

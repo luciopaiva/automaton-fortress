@@ -1,11 +1,16 @@
 
-class DwarfWater {
+class AutomatonFortress {
 
     constructor (rawRules, rawMap) {
         /** @type {String} */
         this.rawRules = rawRules;
         /** @type {String} */
         this.rawMap = rawMap;
+
+        // toolbar buttons
+        this.newMapDialog = document.getElementById("new-map-dialog");
+        this.newMapButton = document.getElementById("new-map-button");
+        this.newMapButton.addEventListener("click", () => this.newMapDialog.classList.toggle("hidden"));
 
         this.rulesTextArea = document.getElementById("rules-script");
         this.rulesTextArea.value = this.rawRules;
@@ -48,7 +53,7 @@ class DwarfWater {
         this.swapMapBuffers();
 
         for (const [x, y] of dirtyTiles) {
-            DwarfWater.updateCell(this.tableCells[x][y], this.map[x][y]);
+            AutomatonFortress.updateCell(this.tableCells[x][y], this.map[x][y]);
         }
     }
 
@@ -109,7 +114,7 @@ class DwarfWater {
         for (const [x, y] of range2d(this.mapWidth, this.mapHeight)) {
             const tile = this.map[x][y];
             const cell = this.tableCells[x][y];
-            DwarfWater.updateCell(cell, tile);
+            AutomatonFortress.updateCell(cell, tile);
         }
 
         if (!this.table.parentElement) {
@@ -126,8 +131,8 @@ class DwarfWater {
     static async run() {
         const rawRules = await getFile("rules.txt");
         const rawMap = await getFile("map.txt");
-        new DwarfWater(rawRules, rawMap);
+        new AutomatonFortress(rawRules, rawMap);
     }
 }
 
-window.addEventListener("load", DwarfWater.run);
+window.addEventListener("load", AutomatonFortress.run);
