@@ -14,7 +14,11 @@
             --component-border-light: 1px solid #383737;
             --component-border-dark: 1px solid black;
             --toolbar-width: 40px;
-            --toolbar-button-size: 30px;
+            --toolbar-button-width: 50px;
+            --toolbar-button-height: 40px;
+
+            --flex-first-column: 1;
+            --flex-second-column: 2;
         }
 
         body {
@@ -49,18 +53,18 @@
             color: white;
         }
 
-        button {
+        .button {
             border-radius: 4px;
 
             font-weight: bold;
             background-color: #a7a7a7;
         }
 
-        button:focus {
+        .button:focus {
             outline: 0;
         }
 
-        button:active {
+        button.button:active {
             position: relative;
             top: 2px;
             left: 2px;
@@ -87,11 +91,6 @@
             display: none !important;
         }
 
-        .header button {
-            height: 40px;
-            width: 50px;
-        }
-
         .container-vertical {
             display: flex;
             flex-direction: column;
@@ -103,23 +102,93 @@
             width: 100%;
         }
 
+        .header {
+            flex: 0 0 content;
+
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+
+            background-color: var(--component-background-color);
+        }
+
         .title {
+            flex: var(--flex-first-column) 0 0;
+
             display: flex;
             flex-direction: row;
             justify-content: left;
             align-items: center;
         }
 
-        .header {
-            flex: 0 1 auto;
+        .header-buttons {
+            flex: var(--flex-second-column) 0 0;
 
             display: flex;
-            justify-content: space-between;
+            flex-direction: row;
+            justify-content: left;
             align-items: center;
-            padding-right: calc(var(--toolbar-width) + 5px);
+        }
 
-            background-color: var(--component-background-color);
-            /*border-bottom: var(--component-border-dark);*/
+        .header-buttons button {
+            width: var(--toolbar-button-width);
+            height: var(--toolbar-button-height);
+            font-size: 16px;
+            margin-left: 5px;
+            text-align: center;
+        }
+
+        .header-buttons input[type="radio"] {
+            display: none;
+        }
+
+        .header-buttons input[type="radio"]:checked + label {
+            background-color: #717171;
+            border: 2px inset buttonface;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .button-group input[type="radio"] + label {
+            color: buttontext;
+            border-image: initial;
+            width: var(--toolbar-button-width);
+            height: var(--toolbar-button-height);
+            box-sizing: border-box;
+            border-right: 0;
+            border-left: 0;
+            border-radius: 0;
+            border-top: 2px outset buttonface;
+            border-bottom: 2px outset buttonface;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-group input[type="radio"]:first-child + label {
+            border-left: 2px outset buttonface;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .button-group input[type="radio"] + label:last-child {
+            border-right: 2px outset buttonface;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .header-buttons .spacer {
+            --width: calc(var(--toolbar-button-width) / 2);
+            --line-size: 1px;
+            width: 0;
+            margin: 0 calc(var(--width) / 2) 0 calc(var(--width) / 2 + 5px - var(--line-size) / 2);
+            height: var(--toolbar-button-height);
+            border-left: var(--line-size) solid black;
+            border-right: var(--line-size) solid #353535;
         }
 
         .icon {
@@ -131,6 +200,7 @@
         }
 
         .footer {
+            flex: 0 0 auto;
             padding: 10px;
             border-top: var(--component-border-light);
             background-color: var(--component-background-color);
@@ -152,74 +222,16 @@
             flex-direction: row;
         }
 
-        .toolbar {
-            position: relative;
-            flex: 0 0 var(--toolbar-width);
-            background-color: var(--component-background-color);
-            border-left: var(--component-border-light);
-            padding-top: 5px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .toolbar button {
-            height: var(--toolbar-button-size);
-            width: var(--toolbar-button-size);
-        }
-
-        #new-map-dialog {
-            position: absolute;
-            right: 42px;
-            top: 0;
-
-            background-color: var(--component-background-color);
-            border: var(--component-border-light);
-            border-radius: 4px;
-
-            font-family: sans-serif;
-            font-size: 16px;
-            color: gray;
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 150px;
-            height: var(--toolbar-width);
-        }
-
-        #new-map-dialog > * {
-            margin: 4px;
-        }
-
-        #new-map-dialog input {
-            width: 40px;
-            border: 1px solid black;
-            border-radius: 4px;
-            height: calc(var(--toolbar-button-size) - 4px);
-        }
-
         #rules-script {
-            flex: 1 0 auto;
-        }
-
-        #map-table-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 3;
-        }
-
-        #map-script {
-            flex-grow: 1;
-            letter-spacing: 6px;
-            font-size: 18px;
+            flex: 1 0 0;
         }
 
         .map-container {
-            flex-grow: 2;
+            flex: 2 0 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             user-select: none;  /* so that we can click and drag freely when editing the map */
         }
@@ -227,11 +239,14 @@
         #map-table {
             font-family: sans-serif;
             font-size: 24px;
-            border-spacing: 0;
+            border-spacing: 1px;
+            background-color: #151414;
+            cursor: crosshair;
         }
     </style>
 </head>
 <body>
+
 <div id="main-container" class="container-vertical">
     <div class="header">
         <div class="title">
@@ -239,26 +254,25 @@
             <div class="icon"></div>
         </div>
         <div class="header-buttons">
-            <button><i class="fas fa-sync-alt fa-2x"></i></button>
-            <button><i class="fas fa-play fa-2x"></i></button>
+            <button class="button" id="new-map-button"><i class="far fa-file fa-1x"></i></button>
+            <div class="spacer"></div>
+            <button class="button" title="hotkey: r"><i class="fas fa-sync-alt fa-1x"></i></button>
+            <button class="button hidden" id="play-button" title="hotkey: p"><i class="fas fa-play fa-1x"></i></button>
+            <button class="button" id="pause-button" title="hotkey: p"><i class="fas fa-pause fa-1x"></i></button>
+            <div class="spacer"></div>
+            <div id="brush-palette" class="button-group">
+                <input type="radio" id="brush-empty" name="brush" checked><label class="button" for="brush-empty"></label>
+                <input type="radio" id="brush-wall" name="brush"><label class="button" for="brush-wall">#</label>
+                <input type="radio" id="brush-water" name="brush"><label class="button" for="brush-water">~</label>
+            </div>
         </div>
     </div>
 
     <div class="container-horizontal">
         <textarea name="rules-script" id="rules-script" cols="30" rows="10"></textarea>
 
-        <div class="container-vertical map-container">
-            <div id="map-table-container">
-                <table id="map-table"></table>
-            </div>
-            <textarea name="map-script" id="map-script" class="hidden" cols="30" rows="10"></textarea>
-        </div>
-
-        <div class="toolbar">
-            <button id="new-map-button"><i class="far fa-file"></i></button>
-            <div id="new-map-dialog">
-                <input type="number" value="20"> x <input type="number" value="16"> <button><i class="fas fa-check"></i></button>
-            </div>
+        <div class="map-container">
+            <table id="map-table"></table>
         </div>
     </div>
 
@@ -266,9 +280,6 @@
         Rules:
         <span id="rules-valid" class="valid hidden"><i class="fas fa-check"></i></span>
         <span id="rules-invalid" class="invalid"><i class="fas fa-times"></i></span>
-        Map:
-        <span id="map-valid" class="valid hidden"><i class="fas fa-check"></i></span>
-        <span id="map-invalid" class="invalid"><i class="fas fa-times"></i></span>
     </div>
 </div>
 
