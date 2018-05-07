@@ -32,7 +32,10 @@ class AutomatonFortress {
         this.newMapButton.addEventListener("click", this.onNewMapButtonClicked.bind(this));
         this.clearMapButton = document.getElementById("clear-map-button");
         this.clearMapButton.addEventListener("click", this.onClearMapButtonClicked.bind(this));
+        this.saveMapButton = document.getElementById("save-map-button");
+        this.saveMapButton.addEventListener("click", this.onSaveMapButtonClicked.bind(this));
 
+        // brush palette buttons
         this.selectedBrush = TileState.EMPTY;
         this.brushButtons = document.querySelectorAll("#brush-palette > input");
         this.brushButtons.forEach(button => button.addEventListener("click", () => {
@@ -43,6 +46,8 @@ class AutomatonFortress {
                 case "water": this.selectedBrush = TileState.FALLING_WATER; break;
             }
         }));
+
+        document.addEventListener("keypress", this.onHotKeyPressed.bind(this));
 
         this.rulesTextArea = document.getElementById("rules-script");
         this.rulesTextArea.value = rawRules;
@@ -55,6 +60,54 @@ class AutomatonFortress {
 
         this.stepFunction = this.step.bind(this);
         setInterval(this.stepFunction, 500);
+    }
+
+    onHotKeyPressed(event)  {
+        switch (event.key) {
+            case "n":
+                this.newMapButton.click();
+                break;
+            case "x":
+                this.clearMapButton.click();
+                break;
+            case "s":
+                this.saveMapButton.click();
+                break;
+            case "p":
+                this.isPaused ? this.playButton.click() : this.pauseButton.click();
+                break;
+            case "e":
+                document.getElementById("brush-empty").click();
+                break;
+            case "b":
+                document.getElementById("brush-wall").click();
+                break;
+            case "w":
+                document.getElementById("brush-water").click();
+                break;
+        }
+    }
+
+    onSaveMapButtonClicked() {
+        const result = [];
+        for (const y of range(this.mapHeight)) {
+            let line = "";
+            for (const x of range(this.mapWidth)) {
+                line += this.map[x][y].symbol;
+            }
+            result.push(line);
+        }
+        const mapAsText = result.join("\n");
+
+        // create temporary text area so we can use it to save the map to clipboard
+        const tempArea = document.createElement("textarea");
+        tempArea.value = mapAsText;
+        tempArea.style.position = "absolute";
+        tempArea.style.zIndex = "-1";
+        document.body.appendChild(tempArea);
+        tempArea.select();
+        document.execCommand("copy");
+        tempArea.remove();
     }
 
     onNewMapButtonClicked() {

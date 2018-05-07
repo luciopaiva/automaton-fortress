@@ -271,18 +271,18 @@
             <div class="icon"></div>
         </div>
         <div class="header-buttons">
-            <button class="button" id="new-map-button"><i class="far fa-file fa-1x"></i></button>
-            <button class="button" id="clear-map-button"><i class="far fa-trash-alt"></i></button>
-            <button class="button" id="save-map-button"><i class="far fa-save"></i></button>
+            <button class="button" id="new-map-button" title="Create new map (hotkey: n)"><i class="far fa-file fa-1x"></i></button>
+            <button class="button" id="clear-map-button" title="Clear map (hotkey: x)"><i class="far fa-trash-alt"></i></button>
+            <button class="button" id="save-map-button" title="Save map to clipboard as text (hotkey: s)"><i class="far fa-save"></i></button>
             <div class="spacer"></div>
-            <button class="button" title="hotkey: r"><i class="fas fa-sync-alt fa-1x"></i></button>
-            <button class="button hidden" id="play-button" title="hotkey: p"><i class="fas fa-play fa-1x"></i></button>
-            <button class="button" id="pause-button" title="hotkey: p"><i class="fas fa-pause fa-1x"></i></button>
+            <button disabled class="button" title="Restart (hotkey: r)"><i class="fas fa-sync-alt fa-1x"></i></button>
+            <button class="button hidden" id="play-button" title="Continue (hotkey: p)"><i class="fas fa-play fa-1x"></i></button>
+            <button class="button" id="pause-button" title="Pause (hotkey: p)"><i class="fas fa-pause fa-1x"></i></button>
             <div class="spacer"></div>
             <div id="brush-palette" class="button-group">
-                <input type="radio" id="brush-empty" name="brush" checked><label class="button" for="brush-empty"></label>
-                <input type="radio" id="brush-wall" name="brush"><label class="button" for="brush-wall">#</label>
-                <input type="radio" id="brush-water" name="brush"><label class="button" for="brush-water">~</label>
+                <input type="radio" id="brush-empty" name="brush" checked><label class="button" for="brush-empty" title="Empty space (hotkey: e)"></label>
+                <input type="radio" id="brush-wall" name="brush"><label class="button" for="brush-wall" title="Wall (hotkey: b)">#</label>
+                <input type="radio" id="brush-water" name="brush"><label class="button" for="brush-water" title="Water (hotkey: w)">~</label>
             </div>
         </div>
     </div>
