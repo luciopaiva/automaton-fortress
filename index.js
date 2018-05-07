@@ -34,6 +34,8 @@ class AutomatonFortress {
         this.clearMapButton.addEventListener("click", this.onClearMapButtonClicked.bind(this));
         this.saveMapButton = document.getElementById("save-map-button");
         this.saveMapButton.addEventListener("click", this.onSaveMapButtonClicked.bind(this));
+        this.clearWaterButton = document.getElementById("clear-water-button");
+        this.clearWaterButton.addEventListener("click", this.onClearWaterButtonClicked.bind(this));
 
         // brush palette buttons
         this.selectedBrush = TileState.EMPTY;
@@ -268,6 +270,15 @@ class AutomatonFortress {
                 this.map[x][y] = TileState.EMPTY;
             }
         }
+    }
+
+    onClearWaterButtonClicked() {
+        for (const [x, y] of range2d(this.mapWidth, this.mapHeight)) {
+            if (this.map[x][y] === TileState.WATER || this.map[x][y] === TileState.FALLING_WATER) {
+                this.map[x][y] = TileState.EMPTY;
+            }
+        }
+        this.resetTable();
     }
 
     resetTable() {
