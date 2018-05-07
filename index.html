@@ -10,6 +10,8 @@
         @import url("https://fonts.googleapis.com/css?family=Patua+One");
 
         :root {
+            --tile-size: 26px;
+
             --component-background-color: #212020;
             --component-border-light: 1px solid #383737;
             --component-border-dark: 1px solid black;
@@ -68,23 +70,6 @@
             position: relative;
             top: 2px;
             left: 2px;
-        }
-
-        td {
-            background-color: #101010;
-            width: 26px;
-            height: 26px;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        td.wall {
-            background-color: #575757;
-        }
-
-        td.water {
-            background-color: blue;
-            color: #9ed0ff;
         }
 
         .hidden {
@@ -226,7 +211,7 @@
             flex: 1 0 0;
         }
 
-        .map-container {
+        #map-container {
             flex: 2 0 0;
 
             display: flex;
@@ -242,6 +227,37 @@
             border-spacing: 1px;
             background-color: #151414;
             cursor: crosshair;
+        }
+
+        #map-table td {
+            background-color: #101010;
+            width: var(--tile-size);
+            height: var(--tile-size);
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #map-table td.wall {
+            background-color: #575757;
+        }
+
+        #map-table td.water {
+            background-color: blue;
+            color: #9ed0ff;
+        }
+
+        #new-map-size-helper {
+            width: 200px;
+            height: 100px;
+            background-color: #151414;
+            font-family: sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            white-space: nowrap;
+            text-align: center;
         }
     </style>
 </head>
@@ -271,8 +287,9 @@
     <div class="container-horizontal">
         <textarea name="rules-script" id="rules-script" cols="30" rows="10"></textarea>
 
-        <div class="map-container">
+        <div id="map-container">
             <table id="map-table"></table>
+            <div id="new-map-size-helper" class="hidden"></div>
         </div>
     </div>
 

@@ -7,18 +7,15 @@ class AutomatonFortress {
      */
     constructor (rawRules, rawMap) {
         this.isPaused = false;
+        this.isMakingNewMap = false;
         this.wall = TileState.WALL;
+
+        this.tileSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--tile-size"), 10);
 
         this.table = document.getElementById("map-table");
         this.prepareTableEvents();
 
         // toolbar buttons
-        this.newMapButton = document.getElementById("new-map-button");
-        this.newMapButton.addEventListener("click", () => {
-            this.reset();
-            // if (window.confirm("The current map will be lost. Are you sure?")) {
-            // }
-        });
         this.playButton = document.getElementById("play-button");
         this.playButton.addEventListener("click", () => {
             this.playButton.classList.toggle("hidden");
@@ -31,6 +28,8 @@ class AutomatonFortress {
             this.pauseButton.classList.toggle("hidden");
             this.isPaused = true;
         });
+        this.newMapButton = document.getElementById("new-map-button");
+        this.newMapButton.addEventListener("click", this.onNewMapButtonClicked.bind(this));
 
         this.selectedBrush = TileState.EMPTY;
         this.brushButtons = document.querySelectorAll("#brush-palette > input");
@@ -54,6 +53,54 @@ class AutomatonFortress {
 
         this.stepFunction = this.step.bind(this);
         setInterval(this.stepFunction, 500);
+    }
+
+    onNewMapButtonClicked() {
+        if (this.isMakingNewMap) {
+            return;
+        }
+
+        if (!this.isPaused) {
+            this.pauseButton.click();
+        }
+        this.isMakingNewMap = true;
+
+        const mapContainerElement = document.getElementById("map-container");
+        const mapSizeHelperElement = document.getElementById("new-map-size-helper");
+
+        mapSizeHelperElement.classList.remove("hidden");
+        this.table.classList.add("hidden");
+
+        let newMapWidth = 0;
+        let newMapHeight = 0;
+        this.newMapOnMouseMove = (event) => {
+            const {top, left, width, height} = mapContainerElement.getBoundingClientRect();
+            const x = event.pageX - left;
+            const y = event.pageY - top;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const dx = Math.abs(x - centerX);
+            const dy = Math.abs(y - centerY);
+            newMapWidth = Math.max(4, Math.round((2 * dx) / this.tileSize));
+            newMapHeight = Math.max(4, Math.round((2 * dy) / this.tileSize));
+            mapSizeHelperElement.innerHTML = `${newMapWidth} x ${newMapHeight}`;
+
+            const helperWidth = this.tileSize * newMapWidth + (newMapWidth * 3);
+            const helperHeight = this.tileSize * newMapHeight + (newMapHeight * 3);
+            mapSizeHelperElement.style.width = helperWidth + "px";
+            mapSizeHelperElement.style.height = helperHeight + "px";
+        };
+        this.newMapOnMouseUp = () => {
+            mapContainerElement.removeEventListener("mousemove", this.newMapOnMouseMove);
+            mapContainerElement.removeEventListener("mouseup", this.newMapOnMouseUp);
+
+            this.reset(null, newMapWidth, newMapHeight);
+            this.isMakingNewMap = false;
+            mapSizeHelperElement.classList.add("hidden");
+            this.table.classList.remove("hidden");
+        };
+        mapContainerElement.addEventListener("mousemove", this.newMapOnMouseMove);
+        mapContainerElement.addEventListener("mouseup", this.newMapOnMouseUp);
     }
 
     prepareTableEvents() {
@@ -127,12 +174,12 @@ class AutomatonFortress {
         this.backingMap = temp;
     }
 
-    reset(rawMap) {
-        this.resetMap(rawMap);
+    reset(rawMap, newWidth, newHeight) {
+        this.resetMap(rawMap, newWidth, newHeight);
         this.resetTable();
     }
 
-    resetMap(rawMap) {
+    resetMap(rawMap, newWidth, newHeight) {
         if (rawMap) {
             const rawMapLines = rawMap.split("\n").map(trimRight);
             this.mapHeight = rawMapLines.length;
@@ -148,8 +195,8 @@ class AutomatonFortress {
                 this.map[x][y] = TileState.fromSymbol(symbol);
             }
         } else {
-            this.mapHeight = 10;
-            this.mapWidth = 20;
+            this.mapWidth = newWidth;
+            this.mapHeight = newHeight;
             /** @type {TileState[][]} */
             this.map = Array.from(Array(this.mapWidth), () => Array(this.mapHeight));
             /** @type {TileState[][]} */

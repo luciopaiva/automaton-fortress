@@ -79,3 +79,12 @@ Relevant reading:
 - http://dwarffortresswiki.org/index.php/v0.34:Water
 - http://dwarffortresswiki.org/index.php/v0.34:Flow
 - http://dwarffortresswiki.org/index.php/v0.34:Pressure
+
+Similar projects:
+
+- http://dan-ball.jp/en/javagame/dust/game.php?g=dust&v=9.5
+  Interesting, follows the new "powder" sand game fashion
+- http://www.github.com/bananaoomarang/Dust
+  Says it's using shaders, but all cellular automata calculations happen in the CPU :-P
+
+Both projects above follow the idea that only particles are cellular automata, when in my case empty spaces are also cells. My rules are also more general, I think. They rely on randomizing stuff, while my rules are deterministic (at least for now!). Which approach is going to be a better fit for GPU processing?
