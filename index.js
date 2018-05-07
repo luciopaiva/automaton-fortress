@@ -30,6 +30,8 @@ class AutomatonFortress {
         });
         this.newMapButton = document.getElementById("new-map-button");
         this.newMapButton.addEventListener("click", this.onNewMapButtonClicked.bind(this));
+        this.clearMapButton = document.getElementById("clear-map-button");
+        this.clearMapButton.addEventListener("click", this.onClearMapButtonClicked.bind(this));
 
         this.selectedBrush = TileState.EMPTY;
         this.brushButtons = document.querySelectorAll("#brush-palette > input");
@@ -101,6 +103,13 @@ class AutomatonFortress {
         };
         mapContainerElement.addEventListener("mousemove", this.newMapOnMouseMove);
         mapContainerElement.addEventListener("mouseup", this.newMapOnMouseUp);
+    }
+
+    onClearMapButtonClicked() {
+        if (!this.isPaused) {
+            this.pauseButton.click();
+        }
+        this.reset(null, this.mapWidth, this.mapHeight);
     }
 
     prepareTableEvents() {
