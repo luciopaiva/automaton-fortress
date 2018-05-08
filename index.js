@@ -18,15 +18,19 @@ class AutomatonFortress {
         // toolbar buttons
         this.playButton = document.getElementById("play-button");
         this.playButton.addEventListener("click", () => {
-            this.playButton.classList.toggle("hidden");
-            this.pauseButton.classList.toggle("hidden");
-            this.isPaused = false;
+            if (this.isPaused) {
+                this.playButton.classList.toggle("hidden");
+                this.pauseButton.classList.toggle("hidden");
+                this.isPaused = false;
+            }
         });
         this.pauseButton = document.getElementById("pause-button");
         this.pauseButton.addEventListener("click", () => {
-            this.playButton.classList.toggle("hidden");
-            this.pauseButton.classList.toggle("hidden");
-            this.isPaused = true;
+            if (!this.isPaused) {
+                this.playButton.classList.toggle("hidden");
+                this.pauseButton.classList.toggle("hidden");
+                this.isPaused = true;
+            }
         });
         this.stepButton = document.getElementById("step-button");
         this.stepButton.addEventListener("click", () => {
@@ -77,11 +81,18 @@ class AutomatonFortress {
     reloadRules() {
         const result = RulesParser.parse(this.rulesTextArea.value);
         if (Array.isArray(result)) {
+            this.stepButton.removeAttribute("disabled");
+            this.playButton.removeAttribute("disabled");
+
             this.rules = result;
             this.rulesValidElement.classList.remove("hidden");
             this.rulesInvalidElement.classList.add("hidden");
             this.rulesMessageElement.innerText = "(last update " + (new Date()).toLocaleTimeString() + ")";
         } else {
+            this.pauseButton.click();
+            this.stepButton.setAttribute("disabled", "");
+            this.playButton.setAttribute("disabled", "");
+
             this.rulesValidElement.classList.add("hidden");
             this.rulesInvalidElement.classList.remove("hidden");
             this.rulesMessageElement.innerText = "Error: " + result;

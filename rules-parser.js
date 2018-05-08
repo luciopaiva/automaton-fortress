@@ -143,8 +143,8 @@ class RulesParser {
 
         for (let i = 0; i < linesAndLineNumbers.length; i += 3) {
             const lineNumber1 = linesAndLineNumbers[i][1];
-            const lineNumber2 = linesAndLineNumbers[i][1];
-            const lineNumber3 = linesAndLineNumbers[i][1];
+            const lineNumber2 = linesAndLineNumbers[i + 1][1];
+            const lineNumber3 = linesAndLineNumbers[i + 2][1];
             const line1 = RulesParser.parseLine(linesAndLineNumbers[i][0], i);
             const line2 = RulesParser.parseLine(linesAndLineNumbers[i + 1][0], i + 1);
             const line3 = RulesParser.parseLine(linesAndLineNumbers[i + 2][0], i + 2);
@@ -152,7 +152,7 @@ class RulesParser {
             if (line1.length % 3 !== 0) {
                 return `number of terms at line ${lineNumber1} must be divisible by 3!`;
             } else if (line2.length !== line1.length + 1) {
-                return `number of terms at line ${lineNumber2} must match number at line ${lineNumber1} + 1!`;
+                return `number of terms at line ${lineNumber2} must match number at line ${lineNumber1} plus one!`;
             } else if (line3.length !== line1.length) {
                 return `number of terms at line ${lineNumber3} must match number at line ${lineNumber1}!`;
             }
