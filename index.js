@@ -34,9 +34,10 @@ class AutomatonLab {
         });
         this.stepButton = document.getElementById("step-button");
         this.stepButton.addEventListener("click", () => {
-            this.isPaused = false;
-            this.step();
-            this.pauseButton.click();
+            if (!this.isPaused) {
+                this.pauseButton.click();
+            }
+            this.step(true);
         });
         this.newMapButton = document.getElementById("new-map-button");
         this.newMapButton.addEventListener("click", this.onNewMapButtonClicked.bind(this));
@@ -232,8 +233,8 @@ class AutomatonLab {
         this.table.addEventListener("mousedown", onMouse.bind(this));
     }
 
-    step() {
-        if (this.isPaused) {
+    step(force = false) {
+        if (this.isPaused && !force) {
             return;
         }
 
