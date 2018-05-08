@@ -263,9 +263,13 @@ class AutomatonFortress {
     getState(x, y) {
         return new RuleState(
             this.getTile(x, y),
+            this.getTile(x - 1, y - 1),
             this.getTile(x, y - 1),
+            this.getTile(x + 1, y - 1),
             this.getTile(x + 1, y),
+            this.getTile(x + 1, y + 1),
             this.getTile(x, y + 1),
+            this.getTile(x - 1, y + 1),
             this.getTile(x - 1, y)
         );
     }
