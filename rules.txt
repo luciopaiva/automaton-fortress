@@ -9,29 +9,42 @@
 ? ? ?
 
 // water falling to the left
-?    ?  ?
-?    ~  ? .
+// notice there can't be water to my left
+?  ?    ?
+.  ~    ? .
 . [~ #] ?
 
-? [. #]  ~
-? .    [~ #] ~
-? ?     ?
+? .  ~
+? . [~ #] ~
+? ?  ?
 
-// water falling to the right
+// water falling to the right (symmetry)
 ?   ?   ?
-?   ~   ? .
+?   ~   . .
 ? [~ #] .
 
-  ~   [. #] ?
-[~ #]   .   ? ~
-  ?     ?   ?
+  ~   . ?
+[~ #] . ? ~
+  ?   ? ?
 
-// water spreading to the right (has bugs)
+// water spreading to the right
 
 ? [# .] [# .]
-~  ~     .    .
+?  ~     .    .
 #  #     #
 
 [# .] [# .] ?
  ~     .    ? ~
  #     #    ?
+
+// water source
+
+# # #
+# . ? ~
+# # #
+
+// water sink
+
+# ? #
+# ~ # .
+# # #
