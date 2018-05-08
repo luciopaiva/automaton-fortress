@@ -1,6 +1,8 @@
 
 # Automaton Lab
 
+![](assets/screenshot-water.png)
+
 A 2D cellular automata sandbox where rules can be changed on-the-fly through an embeded script editor.
 
 At each simulation update, each cell (i.e., represented by a block in the grid) decides its next state based on its neighbors' and its own current state. During its update phase, a cell can only modify its next state and nothing more. So, for instance, to simulate something falling, one has to code it with two state changes:
