@@ -40,6 +40,8 @@ class AutomatonFortress {
         this.clearMapButton.addEventListener("click", this.onClearMapButtonClicked.bind(this));
         this.saveMapButton = document.getElementById("save-map-button");
         this.saveMapButton.addEventListener("click", this.onSaveMapButtonClicked.bind(this));
+        this.reloadMapButton = document.getElementById("reload-map-button");
+        this.reloadMapButton.addEventListener("click", () => this.reset(this.lastSavedMap));
         this.clearWaterButton = document.getElementById("clear-water-button");
         this.clearWaterButton.addEventListener("click", this.onClearWaterButtonClicked.bind(this));
 
@@ -65,7 +67,8 @@ class AutomatonFortress {
         this.rulesTextArea.addEventListener("input", () => this.reloadRules());
         this.reloadRules();
 
-        this.reset(rawMap);
+        this.lastSavedMap = rawMap;
+        this.reset(this.lastSavedMap);
 
         this.stepFunction = this.step.bind(this);
         setInterval(this.stepFunction, 500);
@@ -96,8 +99,14 @@ class AutomatonFortress {
             case "s":
                 this.saveMapButton.click();
                 break;
+            case "r":
+                this.reloadMapButton.click();
+                break;
             case "p":
                 this.isPaused ? this.playButton.click() : this.pauseButton.click();
+                break;
+            case "o":
+                this.stepButton.click();
                 break;
             case "e":
                 document.getElementById("brush-empty").click();
@@ -112,6 +121,20 @@ class AutomatonFortress {
     }
 
     onSaveMapButtonClicked() {
+        this.lastSavedMap = this.serializeMap();
+
+        // create temporary text area so we can use it to save the map to clipboard
+        const tempArea = document.createElement("textarea");
+        tempArea.value = this.lastSavedMap;
+        tempArea.style.position = "absolute";
+        tempArea.style.zIndex = "-1";
+        document.body.appendChild(tempArea);
+        tempArea.select();
+        document.execCommand("copy");
+        tempArea.remove();
+    }
+
+    serializeMap() {
         const result = [];
         for (const y of range(this.mapHeight)) {
             let line = "";
@@ -120,17 +143,7 @@ class AutomatonFortress {
             }
             result.push(line);
         }
-        const mapAsText = result.join("\n");
-
-        // create temporary text area so we can use it to save the map to clipboard
-        const tempArea = document.createElement("textarea");
-        tempArea.value = mapAsText;
-        tempArea.style.position = "absolute";
-        tempArea.style.zIndex = "-1";
-        document.body.appendChild(tempArea);
-        tempArea.select();
-        document.execCommand("copy");
-        tempArea.remove();
+        return result.join("\n");
     }
 
     onNewMapButtonClicked() {
