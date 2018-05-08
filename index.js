@@ -45,23 +45,39 @@ class AutomatonFortress {
             switch (brushType) {
                 case "empty": this.selectedBrush = TileState.EMPTY; break;
                 case "wall": this.selectedBrush = TileState.WALL; break;
-                case "water": this.selectedBrush = TileState.FALLING_WATER; break;
+                case "water": this.selectedBrush = TileState.WATER; break;
             }
         }));
 
         document.addEventListener("keypress", this.onHotKeyPressed.bind(this));
 
+        this.rulesValidElement = document.getElementById("rules-valid");
+        this.rulesInvalidElement = document.getElementById("rules-invalid");
+        this.rulesMessageElement = document.getElementById("rules-message");
         this.rulesTextArea = document.getElementById("rules-script");
         this.rulesTextArea.value = rawRules;
-        this.rulesTextArea.addEventListener("input", () => { /* ToDo reload stuff */ });
-
-        this.rules = RulesParser.parse(rawRules);
-        console.info(this.rules);
+        this.rulesTextArea.addEventListener("input", () => this.reloadRules());
+        this.reloadRules();
 
         this.reset(rawMap);
 
         this.stepFunction = this.step.bind(this);
         setInterval(this.stepFunction, 500);
+    }
+
+    reloadRules() {
+        const result = RulesParser.parse(this.rulesTextArea.value);
+        if (Array.isArray(result)) {
+            this.rules = result;
+            this.rulesValidElement.classList.remove("hidden");
+            this.rulesInvalidElement.classList.add("hidden");
+            this.rulesMessageElement.innerText = "(last update " + (new Date()).toLocaleTimeString() + ")";
+        } else {
+            this.rulesValidElement.classList.add("hidden");
+            this.rulesInvalidElement.classList.remove("hidden");
+            this.rulesMessageElement.innerText = "Error: " + result;
+        }
+        console.info(this.rules);
     }
 
     onHotKeyPressed(event)  {

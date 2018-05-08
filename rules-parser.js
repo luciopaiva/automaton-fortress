@@ -126,17 +126,17 @@ class RulesParser {
 
     /**
      * @param {String} rawRules
-     * @returns {RuleExpression[]}
+     * @returns {RuleExpression[]|String} rules if successful, string with message if parsing failed
      */
     static parse(rawRules) {
         const linesAndLineNumbers = rawRules.split("\n")
             .map((s, i) => [s.trim(), i + 1])
             .filter(([s,]) => s.length > 0)   // get rid of empty lines
-            .filter(([s,]) => s[0] !== "#");  // get rid of comments
+            .filter(([s,]) => !s.startsWith("//"));  // get rid of comments
 
         if (linesAndLineNumbers.length % 3 !== 0) {
-            console.error("Number of effective lines in script must be divisible by 3!");
-            return null;
+            return `number of effective lines in script must be divisible by 3! ` +
+                `(line count is ${linesAndLineNumbers.length})`;
         }
 
         let rules = [];
@@ -150,12 +150,11 @@ class RulesParser {
             const line3 = RulesParser.parseLine(linesAndLineNumbers[i + 2][0], i + 2);
 
             if (line1.length % 3 !== 0) {
-                console.error(`Number of terms at line ${lineNumber1} must be divisible by 3!`);
-                return null;
+                return `number of terms at line ${lineNumber1} must be divisible by 3!`;
             } else if (line2.length !== line1.length + 1) {
-                console.error(`Number of terms at line ${lineNumber2} must match number at line ${lineNumber1} + 1!`);
+                return `number of terms at line ${lineNumber2} must match number at line ${lineNumber1} + 1!`;
             } else if (line3.length !== line1.length) {
-                console.error(`Number of terms at line ${lineNumber3} must match number at line ${lineNumber1}!`);
+                return `number of terms at line ${lineNumber3} must match number at line ${lineNumber1}!`;
             }
 
             const numberOfStates = Math.trunc(line1.length / 3);
