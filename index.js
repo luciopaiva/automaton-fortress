@@ -68,6 +68,8 @@ class AutomatonFortress {
         this.rulesMessageElement = document.getElementById("rules-message");
         this.rulesTextArea = document.getElementById("rules-script");
         this.rulesTextArea.value = rawRules;
+        // key presses inside rules text area must not interpreted as hot keys by the app
+        this.rulesTextArea.addEventListener("keypress", (event) => event.stopPropagation());
         this.rulesTextArea.addEventListener("input", () => this.reloadRules());
         this.reloadRules();
 
