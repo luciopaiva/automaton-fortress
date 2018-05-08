@@ -28,6 +28,12 @@ class AutomatonFortress {
             this.pauseButton.classList.toggle("hidden");
             this.isPaused = true;
         });
+        this.stepButton = document.getElementById("step-button");
+        this.stepButton.addEventListener("click", () => {
+            this.isPaused = false;
+            this.step();
+            this.pauseButton.click();
+        });
         this.newMapButton = document.getElementById("new-map-button");
         this.newMapButton.addEventListener("click", this.onNewMapButtonClicked.bind(this));
         this.clearMapButton = document.getElementById("clear-map-button");
