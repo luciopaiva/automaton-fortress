@@ -1,8 +1,7 @@
 
 class TileState {
-    constructor (symbol, display, cssClass) {
+    constructor (symbol, cssClass) {
         this.symbol = symbol;
-        this.display = display;
         this.cssClass = cssClass;
 
         TileState.tileBySymbol.set(symbol, this);
@@ -28,11 +27,10 @@ class AnyTile extends TileState {
 }
 
 TileState.tileBySymbol = new Map();
-TileState.EMPTY = new TileState(".", " ", "empty");
-TileState.WATER = new TileState("~", "~", "water");
-TileState.FALLING_WATER = new TileState("v", "~", "water");
-TileState.WALL = new TileState("#", "#", "wall");
-TileState.ANY_TILE = new AnyTile("?", "?", "any");
+TileState.EMPTY = new TileState(".", "empty");
+TileState.WATER = new TileState("~", "water");
+TileState.WALL = new TileState("#", "wall");
+TileState.ANY_TILE = new AnyTile("?", "any");
 
 class RuleState {
     constructor (c, nw, n, ne, e, se, s, sw, w) {

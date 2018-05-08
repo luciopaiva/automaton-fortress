@@ -1,5 +1,5 @@
 
-class AutomatonFortress {
+class AutomatonLab {
 
     /**
      * @param {String} rawRules
@@ -325,7 +325,7 @@ class AutomatonFortress {
 
     onClearWaterButtonClicked() {
         for (const [x, y] of range2d(this.mapWidth, this.mapHeight)) {
-            if (this.map[x][y] === TileState.WATER || this.map[x][y] === TileState.FALLING_WATER) {
+            if (this.map[x][y] === TileState.WATER) {
                 this.map[x][y] = TileState.EMPTY;
             }
         }
@@ -361,7 +361,6 @@ class AutomatonFortress {
         const tile = this.map[x][y];
         const cell = this.tableCells[x][y];
 
-        cell.innerText = tile.display;
         for (const name of cell.classList.values()) cell.classList.remove(name);
         cell.classList.add(tile.cssClass);
     }
@@ -369,8 +368,8 @@ class AutomatonFortress {
     static async run() {
         const rawRules = await getFile("rules.txt");
         const rawMap = await getFile("map.txt");
-        new AutomatonFortress(rawRules, rawMap);
+        new AutomatonLab(rawRules, rawMap);
     }
 }
 
-window.addEventListener("load", AutomatonFortress.run);
+window.addEventListener("load", AutomatonLab.run);
