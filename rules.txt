@@ -3,7 +3,8 @@
 ? [~ v] ?
 ? [. v] ? v
 ? [. v] ?
-// ...and it can end up being static, if it can't fall down any further
+// ...and it can end up being static,
+// if it can't fall down any further
 ? [~ v] ?
 ?   .   ? ~
 ? [~ #] ?
@@ -16,7 +17,8 @@
 ?   ~   ? ~
 ?   #   ?
 
-// to complement rule above, water "disappears" if there's room below it
+// to complement rule above, water
+// "disappears" if there's room below it
 ?   ?   ?
 ? [~ v] ? .
 ? [. v] ?

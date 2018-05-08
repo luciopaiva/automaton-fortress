@@ -83,7 +83,6 @@ class AutomatonFortress {
             this.rulesInvalidElement.classList.remove("hidden");
             this.rulesMessageElement.innerText = "Error: " + result;
         }
-        console.info(this.rules);
     }
 
     onHotKeyPressed(event)  {

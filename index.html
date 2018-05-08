@@ -20,7 +20,7 @@
             --toolbar-button-height: 40px;
 
             --flex-first-column: 1;
-            --flex-second-column: 2;
+            --flex-second-column: 4;
         }
 
         body {
@@ -209,11 +209,12 @@
         }
 
         #rules-script {
-            flex: 1 0 0;
+            flex: var(--flex-first-column) 0 0;
+            color: #799466;
         }
 
         #map-container {
-            flex: 2 0 0;
+            flex: var(--flex-second-column) 0 0;
 
             display: flex;
             justify-content: center;
